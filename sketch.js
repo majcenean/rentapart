@@ -100,8 +100,35 @@ var placeImg = [];
 var indexVariable1;
 var indexVariable2;
 var indexVariable3;
-var randomIntegerArray = [indexVariable1, indexVariable2, indexVariable3];
+var randomIntegerArray = [];
 
+
+// images
+var rental1Img;
+var rental2Img;
+var rental3Img;
+var rental4Img;
+var rental5Img;
+var rental6Img;
+var rental7Img;
+var rental8Img;
+var rental9Img;
+var rental10Img;
+var rental11Img;
+var rental12Img;
+var rental13Img;
+var rental14Img;
+var rental15Img;
+var rental16Img;
+var rental17Img;
+var rental18Img;
+var rental19Img;
+var rental20Img;
+var rental21Img;
+var rental22Img;
+var rental23Img;
+
+var rentalImgArray = [];
 
 //////////////////// button matrix
 var rentButton1;
@@ -109,7 +136,7 @@ var rentButton2;
 var rentButton3;
 var rentButtonStroke = '#00000000';
 var rentButtonWidth = 300;
-var rentButtonHeight = 40;
+var rentButtonHeight = 200;
 var rentButtonTextSize = 16; 
 var rentButtonOffset = 210;
 
@@ -138,8 +165,32 @@ var playerBudgetTxt;
 // Function preload
 **************************************************************************/
 function preload() {
-
   roomData = loadTable("assets/trulia.csv", "csv", "header");
+
+  // Rental Images
+  rental1Img = loadImage("assets/places/946stockton.png");
+  rental2Img = loadImage("assets/places/301mission.png");
+  rental3Img = loadImage("assets/places/15harriet.png");
+  rental4Img = loadImage("assets/places/53moss.png");
+  rental5Img = loadImage("assets/places/651minna.png");
+  rental6Img = loadImage("assets/places/2118greenwich.png");
+  rental7Img = loadImage("assets/places/860geary.png");
+  rental8Img = loadImage("assets/places/76page.png");
+  rental9Img = loadImage("assets/places/14kent.png");
+  rental10Img = loadImage("assets/places/3101castro.png");
+  rental11Img = loadImage("assets/places/557frederick.png");
+  rental12Img = loadImage("assets/places/49933rdave.png");
+  rental13Img = loadImage("assets/places/1697newcomb.png");
+  rental14Img = loadImage("assets/places/1242howard.png");
+  rental15Img = loadImage("assets/places/34joice.png");
+  rental16Img = loadImage("assets/places/2506folsom.png");
+  rental17Img = loadImage("assets/places/2708bryant.png");
+  rental18Img = loadImage("assets/places/60latona.png");
+  rental19Img = loadImage("assets/places/120portola.png");
+  rental20Img = loadImage("assets/places/12hill.png");
+  rental21Img = loadImage("assets/places/920montgomery.png");
+  rental22Img = loadImage("assets/places/880vallejo.png");
+  rental23Img = loadImage("assets/places/225fell.png");
 }
 
 
@@ -161,7 +212,7 @@ function setup() {
   angleMode(DEGREES);
   ellipseMode(CENTER);
   rectMode(CENTER);
-  imageMode(CENTER);
+  imageMode(CORNER);
   textSize(width/25);
   textAlign(CENTER);
 
@@ -223,6 +274,8 @@ function setup() {
   bathNum = roomData.getColumn("bathNum");
   sqFt = roomData.getColumn("sqFt");
   placeImg = roomData.getColumn("placeImg");
+
+  rentalImgArray = [rental1Img, rental2Img, rental3Img, rental4Img, rental5Img, rental6Img, rental7Img, rental8Img, rental9Img, rental10Img, rental11Img, rental12Img, rental13Img, rental14Img, rental15Img, rental16Img, rental17Img, rental18Img, rental19Img, rental20Img, rental21Img, rental22Img, rental23Img];
 
 
 
@@ -311,6 +364,7 @@ drawRoom = function () {
     drawProgressBar();
 
     drawRandomIntegers();
+    drawRental();
 
     
     //////////////////// p5 play functions
@@ -385,6 +439,46 @@ function drawBackgroundBox() {
 }
 
 
+
+/*************************************************************************
+// Random Integers
+**************************************************************************/
+
+function drawRandomIntegers() {
+  var randomIntegerArray = [indexVariable1, indexVariable2, indexVariable3];
+
+  indexVariable1 = round(random(0, roomDataRows));
+  indexVariable2 = round(random(0, roomDataRows));
+  indexVariable3 = round(random(0, roomDataRows));
+
+  // print(randomIntegerArray[0]);
+
+}
+
+
+function drawRental() {
+  // push();
+  // imageMode(CORNER);
+  // image(rentalImgArray[0], buttonMatrix_X, buttonMatrix_Y);
+  // pop();
+
+  let rentalTextSize = 15;
+
+  push();
+  textSize(rentalTextSize);
+  textAlign(LEFT);
+  fill(palette_white);
+  noStroke();
+  text(bedNum[0], 100, 100);
+  text(bathNum[0], 100, 150);
+  text(sqFt[0], 100, 200);
+
+  textSize(rentalTextSize*2);
+  text(address[0], 100, 50);
+  pop();
+}
+
+
 /*************************************************************************
 // Clickables
 **************************************************************************/
@@ -433,8 +527,13 @@ function drawButtonMatrix() {
 function drawRentButton1() {
   rentButton1 = new Clickable();
 
+  // Draw the image
   push();
-  rentButton1.text = 'choice 1';
+  rentButton1.image = rentalImgArray[0];
+  pop();
+
+  push();
+  rentButton1.text = ' ';
   rentButton1.color = palette_cream;
   rentButton1.locate(buttonMatrix_X - rentButton1.width/2, buttonMatrix_Y - rentButton1.height/2);
   pop();
@@ -558,19 +657,6 @@ rentButtonOutside1 = function () {
 //    rentButton3.color = palette_white;
 // }
 
-
-
-function drawRandomIntegers () {
-
-  indexVariable1 = round(random(0, roomDataRows));
-  indexVariable2 = round(random(0, roomDataRows));
-  indexVariable3 = round(random(0, roomDataRows));
-
-  print(randomIntegerArray[0]);
-
-
-
-}
 
 
 
