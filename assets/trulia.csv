@@ -1,0 +1,24 @@
+address,moneyText,moneyNum,bedNum,bathNum,sqFt,placeImg
+946 Stockton St,"$3,200",3200,2,2,744,assets/places/946stockton.png
+301 Mission St,"$5,300",5300,2,2,1517,assets/places/301mission.png
+15 Harriet St,"$3,600",3600,4,1,1450,assets/places/15harriet.png
+53 Moss St,"$2,800",2800,2,1,850,assets/places/53moss.png
+651 Minna St,"$2,250",2250,1,1,690,assets/places/651minna.png
+2118 Greenwich St,"$2,600",2600,1,1,535,assets/places/2118greenwich.png
+860 Geary St,"$1,625",1625,Studio,1,450,assets/places/860geary.png
+76A Page St,"$2,950",2950,2,1,700,assets/places/76page.png
+14 Kent St,"$2,400",2400,1,1,500,assets/places/14kent.png
+3101 Castro St,"$2,100",2100,1,1,500,assets/places/3101castro.png
+557 Frederick St,"$2,395",2395,1,1,500,assets/places/557frederick.png
+499 33rd Ave,"$3,800",3800,3,2,1299,assets/places/49933rdave.png
+1697 Newcomb Ave,"$4,500",4500,3,1,2122,assets/places/1697newcomb.png
+1242 Howard St,"$4,450",4450,3,2,850,assets/places/1242howard.png
+34 Joice St,"$2,150",2150,1,1,450,assets/places/34joice.png
+2506 Folsom St,"$3,795",3795,2,2,700,assets/places/2506folsom.png
+2706 Bryant St,"$4,795",4795,3,2,1000,assets/places/2708bryant.png
+60 Latona St,"$3,995",3995,3,2,1200,assets/places/60latona.png
+120 Portola,"$2,700",2700,1,1,750,assets/places/120portola.png
+12 Hill St,"$2,895",2895,1,1,650,assets/places/12hill.png
+920 Montgomery St,"$2,300",2300,Studio,1,392,assets/places/920montgomery.png
+880 Vallejo St,"$2,395",2395,1,1,600,assets/places/880vallejo.png
+225 Fell St,"$1,750",1750,Studio,1,400,assets/places/225fell.png
