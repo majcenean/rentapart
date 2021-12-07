@@ -404,7 +404,7 @@ drawRoom = function () {
     // draw the background sprites;
     drawSprites(money);
     drawMoreMoney();
-    print(int(round(moneyTimer.getRemainingTime())));
+    // print(int(round(moneyTimer.getRemainingTime())));
 
     // draw the main sprite;
     // drawSprites();
@@ -796,7 +796,7 @@ function drawPlayerBudget() {
 
 function addFireTime(time) {
   if( fireTimer.expired() === false ) {
-      if( fireTimerTime < int(round(fireTimer.getRemainingTime())) + int(sqFt[time]) ) {
+      if( fireTimerTime < int(round(fireTimer.getRemainingTime())) + int(sqFt[time])*50 ) {
         // if the fire timer's maximum time is less than the remaining time + the sqft
         // then reset the timer (because the number would be too big);
         fireTimer.reset();
@@ -809,7 +809,7 @@ function addFireTime(time) {
       } 
       else if ( fireTimerTime > int(round(fireTimer.getRemainingTime())) + int(sqFt[time]) ){
         // if the sqft + remaining time would fit within the max time in the timer, then do that
-        fireTimer.addTime(int(sqFt[time]));
+        fireTimer.addTime(int(sqFt[time])*50);
       }
     }
 }
@@ -910,9 +910,27 @@ function drawMoreMoney() {
         moneyTimer.start();
         drawMoney();
       } 
+
+  // let s = second();
+  // let sum = 0;
+
+  // // fill('#000000');
+  // // text('Current second: \n' + s, 5, 50);
+
+  // if (s=30) {
+  //   sum = sum + 1;
+  //   // print(sum);
+  // }
+
+  // if (sum >= 50) {
+  //   drawMoney();
+  // }
 }
 
 
+function mouseClicked() {
+  drawMoney();
+}
 
 
 
