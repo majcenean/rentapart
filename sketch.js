@@ -19,7 +19,7 @@
 var palette_tan = '#875E17';
 var palette_white = '#D3D0BA';
 var palette_cream = '#B5AC91';
-var palette_grey = '#77716A';
+var palette_grey = '#858F98';
 var palette_black = '#090B0C';
 
 
@@ -130,13 +130,22 @@ var rental23Img;
 
 var rentalImgArray = [];
 
+
+//////////////////// icons
+var bathicon;
+var bedicon;
+var sqfticon;
+
+var mainFont;
+
+
 //////////////////// button matrix
 var rentButton1;
 var rentButton2;
 var rentButton3;
 var rentButtonStroke = '#00000000';
-var rentButtonWidth = 300;
-var rentButtonHeight = 200;
+var rentButtonWidth = 200;
+var rentButtonHeight = 133;
 var rentButtonTextSize = 16; 
 var rentButtonOffset = 210;
 
@@ -151,7 +160,7 @@ var fireTimerY = 600;
 var fireBarWidth;
 var fireBarHeight = 20;
 var hMargin = 40;
-var vMargin = 100;
+var vMargin = 30;
 
 var showTimerDebug = false;
 
@@ -191,6 +200,13 @@ function preload() {
   rental21Img = loadImage("assets/places/920montgomery.png");
   rental22Img = loadImage("assets/places/880vallejo.png");
   rental23Img = loadImage("assets/places/225fell.png");
+
+
+  bathicon = loadImage("assets/icons/BathIcon25.png");
+  bedicon = loadImage("assets/icons/BedIcon25.png");
+  sqfticon = loadImage("assets/icons/SquareFeetIcon25.png");
+
+  mainFont = loadFont('assets/Cabin-Regular.otf');
 }
 
 
@@ -215,6 +231,7 @@ function setup() {
   imageMode(CORNER);
   textSize(width/25);
   textAlign(CENTER);
+  textFont(mainFont);
 
 
 
@@ -224,8 +241,8 @@ function setup() {
   rectPosY = height/2;
   SCENE_W = rectPosX;
   SCENE_H = rectPosY;
-  buttonMatrix_X = (width/6);
-  buttonMatrix_Y = (height/3);
+  buttonMatrix_X = (width/9);
+  buttonMatrix_Y = (height/6);
 
 
   // mainsprite
@@ -347,7 +364,7 @@ function draw() {
 // }
 
 drawRoom = function () {
-    background(50);
+    background('#ffffff');
     //////////////////// scene setup functions
     roomSizeX = sqrt(roomSize)*sizeFactor;
     roomSizeY = sqrt(roomSize)*sizeFactor;
@@ -424,7 +441,7 @@ function drawBackgroundBox() {
   rectUp = rectPosY - rectH/2;
   rectDown = rectPosY + rectH/2;
 
-  fill(palette_tan);
+  fill(palette_grey);
 
   // Background box
   rectMode(CENTER);
@@ -463,18 +480,28 @@ function drawRental() {
   // pop();
 
   let rentalTextSize = 15;
+  let rentalTextYOffset = 50;
+  let rentalTextXOffset = 75;
 
   push();
   textSize(rentalTextSize);
   textAlign(LEFT);
-  fill(palette_white);
+  fill(palette_black);
   noStroke();
-  text(bedNum[0], 100, 100);
-  text(bathNum[0], 100, 150);
-  text(sqFt[0], 100, 200);
+  text(bedNum[0], buttonMatrix_X, buttonMatrix_Y + rentButtonHeight + rentalTextYOffset);
+  text(bathNum[0], buttonMatrix_X + rentalTextXOffset, buttonMatrix_Y + rentButtonHeight + rentalTextYOffset);
+  text(sqFt[0], buttonMatrix_X + rentalTextXOffset*2, buttonMatrix_Y + rentButtonHeight + rentalTextYOffset);
+  text(address[0], buttonMatrix_X - 45, buttonMatrix_Y + rentButtonHeight + rentalTextYOffset*1.5);
 
-  textSize(rentalTextSize*2);
-  text(address[0], 100, 50);
+  textSize(rentalTextSize*1.5);
+  text(moneyText[0], buttonMatrix_X - 45, buttonMatrix_Y + rentButtonHeight + 10);
+  pop();
+
+  push();
+  imageMode(CENTER);
+  image(bedicon, buttonMatrix_X - bedicon.width, buttonMatrix_Y + rentButtonHeight + rentalTextYOffset - 10);
+  image(bathicon, buttonMatrix_X + rentalTextXOffset - bathicon.width, buttonMatrix_Y + rentButtonHeight + rentalTextYOffset - 10);
+  image(sqfticon, buttonMatrix_X + rentalTextXOffset*2 - sqfticon.width, buttonMatrix_Y + rentButtonHeight + rentalTextYOffset - 10);
   pop();
 }
 
@@ -534,7 +561,7 @@ function drawRentButton1() {
 
   push();
   rentButton1.text = ' ';
-  rentButton1.color = palette_cream;
+  rentButton1.color = palette_grey;
   rentButton1.locate(buttonMatrix_X - rentButton1.width/2, buttonMatrix_Y - rentButton1.height/2);
   pop();
 
@@ -549,7 +576,8 @@ function drawRentButton1() {
 }
 
 rentButtonPressed1 = function () {
-    rentButton1.color = '#ff7866';
+  rentButton1.color = palette_tan;
+    rentButton1.tint = true;
     // indexVariable1 = round(random(0, roomDataRows));
     // roomSize = sqFt[indexVariable1];
 
@@ -563,11 +591,12 @@ rentButtonPressed1 = function () {
 }
 
 rentButtonHover1 = function () {
-   rentButton1.color = palette_tan;
+  rentButton1.color = palette_tan;
+   rentButton1.tint = true;
 }
 
 rentButtonOutside1 = function () {
-   rentButton1.color = palette_white;
+   rentButton1.noTint = true;
 }
 
 
