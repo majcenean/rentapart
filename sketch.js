@@ -63,8 +63,8 @@ var money;
 
 // Main Sprite
 var mainsprite;
-var mainspriteW = 55;
-var mainspriteH = 100;
+var mainspriteW = 75;
+var mainspriteH = 135;
 
 var sizeFactor = 20/2;
 // 100 px / 5ft = 20 px = 1 ft
@@ -166,6 +166,9 @@ var showTimerDebug = false;
 
 
 
+var moneyTimer;
+var moneyTimerTime = 2000;
+
 //////////////////// playerBudget
 var playerBudget = 3000;
 var playerBudgetTxt;
@@ -200,7 +203,6 @@ function preload() {
   rental21Img = loadImage("assets/places/920montgomery.png");
   rental22Img = loadImage("assets/places/880vallejo.png");
   rental23Img = loadImage("assets/places/225fell.png");
-
 
   bathicon = loadImage("assets/icons/BathIcon25.png");
   bedicon = loadImage("assets/icons/BedIcon25.png");
@@ -250,8 +252,8 @@ function setup() {
 
   var mainspriteMove = 
   mainsprite.addAnimation('idle',
-    'assets/img/mainsprite/1.png', 'assets/img/mainsprite/3.png');
-  mainsprite.addAnimation('moving', 'assets/img/mainsprite/1.png', 'assets/img/mainsprite/2.png');
+    'assets/img/mainsprite/2.png', 'assets/img/mainsprite/2a.png');
+  mainsprite.addAnimation('moving', 'assets/img/mainsprite/1.png', 'assets/img/mainsprite/2.png', 'assets/img/mainsprite/3.png', 'assets/img/mainsprite/2.png');
 
 
 
@@ -304,6 +306,10 @@ function setup() {
   fireTimer = new Timer(int(fireTimerTime));
   fireBarWidth = width-(hMargin*2);
   fireTimer.pause();
+
+
+  moneyTimer = new Timer(int(moneyTimerTime));
+  moneyTimer.pause();
 }
 
 
@@ -397,6 +403,8 @@ drawRoom = function () {
 
     // draw the background sprites;
     drawSprites(money);
+    drawMoreMoney();
+    print(int(round(moneyTimer.getRemainingTime())));
 
     // draw the main sprite;
     // drawSprites();
@@ -611,11 +619,13 @@ rentButtonPressed1 = function () {
     // Starts the timer upon click
     if( fireTimer.paused === true ) {
         fireTimer.start();
+        moneyTimer.start();
       } 
 
     drawRandomIntegers();
     drawRental();
 
+    playerBudget = playerBudget - moneyNum[indexVariable1];
     }
 }
 
@@ -670,11 +680,13 @@ rentButtonPressed2 = function () {
     // Starts the timer upon click
     if( fireTimer.paused === true ) {
         fireTimer.start();
+        moneyTimer.start();
       } 
 
     drawRandomIntegers();
     drawRental();
 
+    playerBudget = playerBudget - moneyNum[indexVariable2];
   }
 }
 
@@ -729,10 +741,13 @@ rentButtonPressed3 = function () {
     // Starts the timer upon click
     if( fireTimer.paused === true ) {
         fireTimer.start();
+        moneyTimer.start();
       } 
 
     drawRandomIntegers();
     drawRental();
+
+    playerBudget = playerBudget - moneyNum[indexVariable3];
   }
 }
 
@@ -883,16 +898,19 @@ function eatMoney() {
 function collectMoney(collector, collected) {
   collected.remove();
 
-  let moneyValue = 60;
+  let moneyValue = 100;
 
   playerBudget = playerBudget + moneyValue;
 }
 
 
 
-
-
-
+function drawMoreMoney() {
+  if( moneyTimer.expired === true ) {
+        moneyTimer.start();
+        drawMoney();
+      } 
+}
 
 
 
