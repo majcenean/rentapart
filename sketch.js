@@ -152,14 +152,14 @@ var rentButtonOffset = 210;
 
 //////////////////// timer
 var fireTimer;
-var fireTimerTime = 10000;
+var fireTimerTime = 150000;
 var waitForClick = true;
 var fireTimerX = 100;
 var fireTimerY = 600;
 
 var fireBarWidth;
 var fireBarHeight = 20;
-var hMargin = 40;
+var hMargin = 50;
 var vMargin = 30;
 
 var showTimerDebug = false;
@@ -167,7 +167,7 @@ var showTimerDebug = false;
 
 
 //////////////////// playerBudget
-var playerBudget = 1000;
+var playerBudget = 3000;
 var playerBudgetTxt;
 
 /*************************************************************************
@@ -241,8 +241,8 @@ function setup() {
   rectPosY = height/2;
   SCENE_W = rectPosX;
   SCENE_H = rectPosY;
-  buttonMatrix_X = (width/9);
-  buttonMatrix_Y = (height/6);
+  buttonMatrix_X = 100;
+  buttonMatrix_Y = 100;
 
 
   // mainsprite
@@ -294,7 +294,7 @@ function setup() {
 
   rentalImgArray = [rental1Img, rental2Img, rental3Img, rental4Img, rental5Img, rental6Img, rental7Img, rental8Img, rental9Img, rental10Img, rental11Img, rental12Img, rental13Img, rental14Img, rental15Img, rental16Img, rental17Img, rental18Img, rental19Img, rental20Img, rental21Img, rental22Img, rental23Img];
 
-
+  drawRandomIntegers();
 
   //////////////////// clickables setup
   drawButtonMatrix();
@@ -317,6 +317,11 @@ function draw() {
 //////////////////// state functions
   // Call the state machine function (a variable)
   drawFunction();
+
+
+  // if( fireTimer.expired === true ) {
+  //       ;
+  //     } 
 
 //////////////////// debug mode
   // Toggle Debug Mode
@@ -376,11 +381,11 @@ drawRoom = function () {
 
     drawBackgroundBox();
     // drawRentPrice();
-    // drawPlayerBudget();
+    drawPlayerBudget();
 
     drawProgressBar();
 
-    drawRandomIntegers();
+    // drawRandomIntegers();
     drawRental();
 
     
@@ -479,29 +484,44 @@ function drawRental() {
   // image(rentalImgArray[0], buttonMatrix_X, buttonMatrix_Y);
   // pop();
 
+  drawRentalText(indexVariable1, 0);
+  drawRentalText(indexVariable2, 225);
+  drawRentalText(indexVariable3, 325+rentButton2.height);
+
+
+  rentButton1.image = rentalImgArray[indexVariable1];
+  rentButton2.image = rentalImgArray[indexVariable2];
+  rentButton3.image = rentalImgArray[indexVariable3];
+}
+
+function drawRentalText(index, offsetY) {
+  // Variables
   let rentalTextSize = 15;
   let rentalTextYOffset = 50;
   let rentalTextXOffset = 75;
 
+  // Rental info
   push();
   textSize(rentalTextSize);
   textAlign(LEFT);
   fill(palette_black);
   noStroke();
-  text(bedNum[0], buttonMatrix_X, buttonMatrix_Y + rentButtonHeight + rentalTextYOffset);
-  text(bathNum[0], buttonMatrix_X + rentalTextXOffset, buttonMatrix_Y + rentButtonHeight + rentalTextYOffset);
-  text(sqFt[0], buttonMatrix_X + rentalTextXOffset*2, buttonMatrix_Y + rentButtonHeight + rentalTextYOffset);
-  text(address[0], buttonMatrix_X - 45, buttonMatrix_Y + rentButtonHeight + rentalTextYOffset*1.5);
+  text(bedNum[index], buttonMatrix_X, buttonMatrix_Y + rentButtonHeight + rentalTextYOffset + offsetY);
+  text(bathNum[index], buttonMatrix_X + rentalTextXOffset, buttonMatrix_Y + rentButtonHeight + rentalTextYOffset + offsetY);
+  text(sqFt[index], buttonMatrix_X + rentalTextXOffset*2, buttonMatrix_Y + rentButtonHeight + rentalTextYOffset + offsetY);
+  // text(address[indexVariable1], buttonMatrix_X - 45, buttonMatrix_Y + rentButtonHeight + rentalTextYOffset*1.5);
 
+  // Price
   textSize(rentalTextSize*1.5);
-  text(moneyText[0], buttonMatrix_X - 45, buttonMatrix_Y + rentButtonHeight + 10);
+  text(moneyText[index], buttonMatrix_X - 45, buttonMatrix_Y + rentButtonHeight + 10 + offsetY);
   pop();
 
+  // Images
   push();
   imageMode(CENTER);
-  image(bedicon, buttonMatrix_X - bedicon.width, buttonMatrix_Y + rentButtonHeight + rentalTextYOffset - 10);
-  image(bathicon, buttonMatrix_X + rentalTextXOffset - bathicon.width, buttonMatrix_Y + rentButtonHeight + rentalTextYOffset - 10);
-  image(sqfticon, buttonMatrix_X + rentalTextXOffset*2 - sqfticon.width, buttonMatrix_Y + rentButtonHeight + rentalTextYOffset - 10);
+  image(bedicon, buttonMatrix_X - bedicon.width, buttonMatrix_Y + rentButtonHeight + rentalTextYOffset - 10 + offsetY);
+  image(bathicon, buttonMatrix_X + rentalTextXOffset - bathicon.width, buttonMatrix_Y + rentButtonHeight + rentalTextYOffset - 10 + offsetY);
+  image(sqfticon, buttonMatrix_X + rentalTextXOffset*2 - sqfticon.width, buttonMatrix_Y + rentButtonHeight + rentalTextYOffset - 10 + offsetY);
   pop();
 }
 
@@ -511,15 +531,15 @@ function drawRental() {
 **************************************************************************/
 function drawRentButtons() {
   rentButton1.draw();
-  // rentButton2.draw();
-  // rentButton3.draw();
+  rentButton2.draw();
+  rentButton3.draw();
 }
 
 
 function drawButtonMatrix() {
   drawRentButton1();
-  // drawRentButton2();
-  // drawRentButton3();
+  drawRentButton2();
+  drawRentButton3();
 }
 
 // function setRentButtons() {
@@ -556,20 +576,21 @@ function drawRentButton1() {
 
   // Draw the image
   push();
-  rentButton1.image = rentalImgArray[0];
+  rentButton1.image = rentalImgArray[indexVariable1];
   pop();
 
-  push();
+  // position
+  rentButton1.locate(buttonMatrix_X - rentButton1.width/2, buttonMatrix_Y - rentButton1.height/2);
+  
+  // style
   rentButton1.text = ' ';
   rentButton1.color = palette_grey;
-  rentButton1.locate(buttonMatrix_X - rentButton1.width/2, buttonMatrix_Y - rentButton1.height/2);
-  pop();
-
   rentButton1.stroke = rentButtonStroke;
   rentButton1.width = rentButtonWidth;
   rentButton1.height = rentButtonHeight;
   rentButton1.textSize = rentButtonTextSize; 
 
+  // interaction
   rentButton1.onPress = rentButtonPressed1;
   rentButton1.onHover = rentButtonHover1;
   rentButton1.onOutside = rentButtonOutside1;
@@ -577,17 +598,25 @@ function drawRentButton1() {
 
 rentButtonPressed1 = function () {
   rentButton1.color = palette_tan;
-    rentButton1.tint = true;
+  rentButton1.tint = true;
     // indexVariable1 = round(random(0, roomDataRows));
     // roomSize = sqFt[indexVariable1];
 
-    addFireTime();
+
+    if (moneyNum[indexVariable1] <= playerBudget) {
+
+    addFireTime(indexVariable1);
     drawMoney();
 
     // Starts the timer upon click
     if( fireTimer.paused === true ) {
         fireTimer.start();
       } 
+
+    drawRandomIntegers();
+    drawRental();
+
+    }
 }
 
 rentButtonHover1 = function () {
@@ -601,91 +630,120 @@ rentButtonOutside1 = function () {
 
 
 
-// // Button 2
-// function drawRentButton2() {
-//   rentButton2 = new Clickable();
+// Button 2
+function drawRentButton2() {
+  rentButton2 = new Clickable();
 
-//   push();
-//   rentButton2.text = 'choice 2';
-//   rentButton2.color = palette_cream;
-//   rentButton2.locate(buttonMatrix_X - rentButton2.width/2, buttonMatrix_Y - rentButton2.height/2 + rentButtonOffset);
-//   pop();
+  // Draw the image
+  push();
+  rentButton2.image = rentalImgArray[indexVariable2];
+  pop();
 
-//   rentButton2.stroke = rentButtonStroke;
-//   rentButton2.width = rentButtonWidth;
-//   rentButton2.height = rentButtonHeight;
-//   rentButton2.textSize = rentButtonTextSize; 
+  // position
+  rentButton2.locate(buttonMatrix_X - rentButton2.width/2, buttonMatrix_Y - rentButton2.height/2 + 225);
+  
+  // style
+  rentButton2.text = ' ';
+  rentButton2.color = palette_grey;
+  rentButton2.stroke = rentButtonStroke;
+  rentButton2.width = rentButtonWidth;
+  rentButton2.height = rentButtonHeight;
+  rentButton2.textSize = rentButtonTextSize; 
 
-//   rentButton2.onPress = rentButtonPressed2;
-//   rentButton2.onHover = rentButtonHover2;
-//   rentButton2.onOutside = rentButtonOutside2;
-// }
+  // interaction
+  rentButton2.onPress = rentButtonPressed2;
+  rentButton2.onHover = rentButtonHover2;
+  rentButton2.onOutside = rentButtonOutside2;
+}
 
-// rentButtonPressed2 = function () {
-//     rentButton2.color = '#ff7866';
-//     indexVariable2 = round(random(0, roomDataRows));
-//     roomSize = sqFt[indexVariable2];
+rentButtonPressed2 = function () {
+  rentButton2.color = palette_tan;
+    rentButton2.tint = true;
+    // indexVariable1 = round(random(0, roomDataRows));
+    // roomSize = sqFt[indexVariable1];
 
-//     addFireTime();
-//     drawMoney();
+    if (moneyNum[indexVariable2] <= playerBudget) {
 
-//     // Starts the timer upon click
-//     if( fireTimer.paused === true ) {
-//         fireTimer.start();
-//       } 
-// }
+    addFireTime(indexVariable2);
+    drawMoney();
 
-// rentButtonHover2 = function () {
-//    rentButton2.color = palette_tan;
-// }
+    // Starts the timer upon click
+    if( fireTimer.paused === true ) {
+        fireTimer.start();
+      } 
 
-// rentButtonOutside2 = function () {
-//    rentButton2.color = palette_white;
-// }
+    drawRandomIntegers();
+    drawRental();
+
+  }
+}
+
+rentButtonHover2 = function () {
+  rentButton2.color = palette_tan;
+   rentButton2.tint = true;
+}
+
+rentButtonOutside2 = function () {
+   rentButton2.noTint = true;
+}
 
 
-// // Button 3
-// function drawRentButton3() {
-//   rentButton3 = new Clickable();
 
-//   push();
-//   rentButton3.text = 'choice 3';
-//   rentButton3.color = palette_cream;
-//   rentButton3.locate(buttonMatrix_X - rentButton3.width/2, buttonMatrix_Y - rentButton3.height/2 + rentButtonOffset*2);
-//   pop();
+// Button 3
+function drawRentButton3() {
+  rentButton3 = new Clickable();
 
-//   rentButton3.stroke = rentButtonStroke;
-//   rentButton3.width = rentButtonWidth;
-//   rentButton3.height = rentButtonHeight;
-//   rentButton3.textSize = rentButtonTextSize; 
+  // Draw the image
+  push();
+  rentButton3.image = rentalImgArray[indexVariable3];
+  pop();
 
-//   rentButton3.onPress = rentButtonPressed3;
-//   rentButton3.onHover = rentButtonHover3;
-//   rentButton3.onOutside = rentButtonOutside3;
-// }
+  // position
+  rentButton3.locate(buttonMatrix_X - rentButton3.width/2, buttonMatrix_Y - rentButton3.height/2 + 325 + rentButton2.height);
+  
+  // style
+  rentButton3.text = ' ';
+  rentButton3.color = palette_grey;
+  rentButton3.stroke = rentButtonStroke;
+  rentButton3.width = rentButtonWidth;
+  rentButton3.height = rentButtonHeight;
+  rentButton3.textSize = rentButtonTextSize; 
 
-// rentButtonPressed3 = function () {
-//     rentButton3.color = '#ff7866';
-//     indexVariable3 = round(random(0, roomDataRows));
-//     roomSize = sqFt[indexVariable3];
+  // interaction
+  rentButton3.onPress = rentButtonPressed3;
+  rentButton3.onHover = rentButtonHover3;
+  rentButton3.onOutside = rentButtonOutside3;
+}
 
-//     addFireTime();
-//     drawMoney();
+rentButtonPressed3 = function () {
+  rentButton3.color = palette_tan;
+    rentButton3.tint = true;
+    // indexVariable1 = round(random(0, roomDataRows));
+    // roomSize = sqFt[indexVariable1];
 
-//     // Starts the timer upon click
-//     if( fireTimer.paused === true ) {
-//         fireTimer.start();
-//       } 
-// }
+    if (moneyNum[indexVariable3] <= playerBudget) {
 
-// rentButtonHover3 = function () {
-//    rentButton3.color = palette_tan;
-// }
+    addFireTime(indexVariable3);
+    drawMoney();
 
-// rentButtonOutside3 = function () {
-//    rentButton3.color = palette_white;
-// }
+    // Starts the timer upon click
+    if( fireTimer.paused === true ) {
+        fireTimer.start();
+      } 
 
+    drawRandomIntegers();
+    drawRental();
+  }
+}
+
+rentButtonHover3 = function () {
+  rentButton3.color = palette_tan;
+   rentButton3.tint = true;
+}
+
+rentButtonOutside3 = function () {
+   rentButton3.noTint = true;
+}
 
 
 
@@ -703,9 +761,16 @@ function drawRentPrice() {
 
 function drawPlayerBudget() {
   push();
+  textSize(20);
+  
+  fill(palette_white);
+  text('your budget is:', rectPosX, (3*(height/4))+100 - 100);
+  pop();
+
+  push();
   noStroke();
   fill(palette_white);
-  text('$'+playerBudget, width/3, (3*(height/4))+100);
+  text('$'+playerBudget, rectPosX, (3*(height/4))+100);
   pop();
 }
 
@@ -714,9 +779,9 @@ function drawPlayerBudget() {
 // FireTimer
 **************************************************************************/
 
-function addFireTime() {
+function addFireTime(time) {
   if( fireTimer.expired() === false ) {
-      if( fireTimerTime < int(round(fireTimer.getRemainingTime())) + int(sqFt[indexVariable1]) ) {
+      if( fireTimerTime < int(round(fireTimer.getRemainingTime())) + int(sqFt[time]) ) {
         // if the fire timer's maximum time is less than the remaining time + the sqft
         // then reset the timer (because the number would be too big);
         fireTimer.reset();
@@ -727,9 +792,9 @@ function addFireTime() {
         // print('the sqft is:' + int(sqFt[indexVariable]))
         // print('the new time is:' + int(int(round(fireTimer.getRemainingTime())) + int(sqFt[indexVariable])));
       } 
-      else if ( fireTimerTime > int(round(fireTimer.getRemainingTime())) + int(sqFt[indexVariable1]) ){
+      else if ( fireTimerTime > int(round(fireTimer.getRemainingTime())) + int(sqFt[time]) ){
         // if the sqft + remaining time would fit within the max time in the timer, then do that
-        fireTimer.addTime(int(sqFt[indexVariable1]));
+        fireTimer.addTime(int(sqFt[time]));
       }
     }
 }
